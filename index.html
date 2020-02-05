@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+	<head>
+		<title>linalg.kmh.zone</title>
+		<style>
+			#car1 {
+				position: absolute;
+				top: 5em;
+				left: -100px;
+			}
+			body {
+				overflow-x: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 style="text-align: center">Kevin Higgs's Linear Algebra Homepage on the ARPANET</h1>
+		<p style="text-align: center"><em>textbook to matlab, faster than a taxicab</em></p>
+		<hr>
+		<section style="max-width: 900px; margin: auto">
+			<h2 style="text-align: center; font-weight: normal"><strong>Attention:</strong> The taxicab frequently fails to return to the screen after departure. We are aware of the issue and our team is working to mitigate it.</h1>
+			<h3>MATLAB code generator</h3>
+			<p>Enter an augmented or coefficient matrix below, with columns separated by spaces, and rows separated by newlines or semicolons. All extra characters (e.g. brackets) are ignored. The easiest way to get this is to copy and paste from the textbook in Google Chrome's PDF viewer.</p>
+			<textarea style="width: 300px; height: 200px" placeholder="matrix" id="matrix"></textarea>
+			<p>Select the features you want:</p>
+			<input type="checkbox" name="declaration" id="declaration" checked><label for="declaration">MATLAB matrix declaration</label><br>
+			<input type="checkbox" name="rref" id="rref" checked><label for="rref">Reduced row echelon form generation</label><br>
+			<input type="checkbox" name="u2212" id="u2212" checked><label for="u2212">Use minus sign instead of hyphen (uncheck if using Octave Online)</label>
+			<p>Enter the MATLAB variable name: <input type="text" id="variable" placeholder="variable name"></p>
+			<p><button onclick="getCode()">get code!</button></p>
+			<textarea id="code" placeholder="generated code" style="width: 700px; height: 500px"></textarea>
+		</section>
+		<img src="http://clipart-library.com/image_gallery/82446.png" id="car1">
+		<script>
+			var car1X = -car1.width
+			function moveCar1() {
+				car1X += 5
+				car1.style.left = car1X + 'px'
+			}
+			moveCar1()
+			setInterval(moveCar1, 100);
+
+			async function getCode() {
+				var r = await fetch('/code', {method: 'POST', body: matrix.value})
+				var matlabCode = (await r.text()).replace(/{%variable%}/g, variable.value)
+				if (!u2212.checked) matlabCode = matlabCode.replace(/−/g, '-')
+				if (!rref.checked) matlabCode = matlabCode.split('\n')[0]
+				if (!declaration.checked) matlabCode = matlabCode.split('\n').slice(1).join('\n')
+				code.value = matlabCode
+			}
+		</script>
+	</body>
+</html>
