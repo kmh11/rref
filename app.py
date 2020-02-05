@@ -26,7 +26,7 @@ def code():
 	code += swapSort(m)
 	for i in range(len(m)):
 		for j in range(len(m)):
-			if i == j: continue
+			if i == j or i >= len(m[i]): continue
 			if m[i][i] != 0:
 				pmj = m[j][:]
 				m[j] = [m[j][k] - m[i][k]*m[j][i]/m[i][i] for k in range(len(m[j]))]
@@ -39,6 +39,7 @@ def code():
 						if m[j] != pmj: code += f'{mname}({j+1},:) = {mname}({j+1},:) - {mname}({i+1},:)*{mname}({j+1},{p+1})/{mname}({i+1},{p+1})\n'
 						break
 	for i in range(len(m)):
+		if i >= len(m[i]): continue
 		if m[i][i] != 0:
 			if m[i][i] != 1: code += f'{mname}({i+1},:) = {mname}({i+1},:)/{mname}({i+1},{i+1})\n'
 		else:
