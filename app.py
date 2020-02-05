@@ -18,8 +18,8 @@ def swapSort(m):
 @app.route('/code', methods=['POST'])
 def code():
 	matrix = request.data.decode("utf8").replace(';', '\n').translate(str.maketrans('', '', ''.join(set(request.data.decode("utf8")) - set("\u2212- \n\t0123456789.e")))).strip().split("\n")
-	coefficients = [[int(d.strip().replace("−", "-")) for d in r.strip().split(" ")[:-1] if len(d.strip()) > 0] for r in matrix if len(r.strip()) > 0]
-	answers = [[int(d.replace("−", "-")) for d in r.split(" ") if len(d.strip()) > 0][-1] for r in matrix if len(r.strip()) > 0]
+	coefficients = [[float(d.strip().replace("−", "-")) for d in r.strip().split(" ")[:-1] if len(d.strip()) > 0] for r in matrix if len(r.strip()) > 0]
+	answers = [[float(d.replace("−", "-")) for d in r.split(" ") if len(d.strip()) > 0][-1] for r in matrix if len(r.strip()) > 0]
 	mname = '{%variable%}'
 	m = [coefficients[i] + [answers[i]] for i in range(len(coefficients))]
 	code = mname+" = "+"["+" ; ".join(" ".join([str(d) for d in r]) for r in m)+"]"+"\n"
