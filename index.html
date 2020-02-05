@@ -30,15 +30,17 @@
 			<p><button onclick="getCode()">get code!</button></p>
 			<textarea id="code" placeholder="generated code" style="width: 700px; height: 500px"></textarea>
 		</section>
-		<img src="http://clipart-library.com/image_gallery/82446.png" id="car1">
+		<img onload="startCar()" src="https://i.imgur.com/3v2aUs1.png" id="car1">
 		<script>
-			var car1X = -car1.width
-			function moveCar1() {
-				car1X += 5
-				car1.style.left = car1X + 'px'
+			function startCar() {
+				var car1X = -car1.width
+				function moveCar1() {
+					car1X += 5
+					car1.style.left = car1X + 'px'
+				}
+				moveCar1()
+				setInterval(moveCar1, 100);
 			}
-			moveCar1()
-			setInterval(moveCar1, 100);
 
 			async function getCode() {
 				var r = await fetch('/code', {method: 'POST', body: matrix.value})
