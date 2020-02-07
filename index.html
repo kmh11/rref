@@ -25,7 +25,6 @@
 			<p>Select the features you want:</p>
 			<input type="checkbox" name="declaration" id="declaration" checked><label for="declaration">MATLAB matrix declaration</label><br>
 			<input type="checkbox" name="rref" id="rref" checked><label for="rref">Reduced row echelon form generation</label><br>
-			<input type="checkbox" name="u2212" id="u2212" checked><label for="u2212">Use minus sign instead of hyphen (uncheck if using Octave Online)</label>
 			<p>Enter the MATLAB variable name: <input type="text" id="variable" placeholder="variable name"></p>
 			<p><button onclick="getCode()">get code!</button></p>
 			<textarea id="code" placeholder="generated code" style="width: 700px; height: 500px"></textarea>
@@ -45,7 +44,6 @@
 			async function getCode() {
 				var r = await fetch('/code', {method: 'POST', body: matrix.value})
 				var matlabCode = (await r.text()).replace(/{%variable%}/g, variable.value)
-				if (!u2212.checked) matlabCode = matlabCode.replace(/−/g, '-')
 				if (!rref.checked) matlabCode = matlabCode.split('\n')[0]
 				if (!declaration.checked) matlabCode = matlabCode.split('\n').slice(1).join('\n')
 				code.value = matlabCode
